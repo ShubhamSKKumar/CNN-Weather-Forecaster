@@ -9,7 +9,16 @@ st.write("Upload an image of the sky, and the ResNet50 AI will predict the weath
 # Cache the model so it doesn't reload on every click
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model('models/02_resnet50_weather_classifier.h5', compile=False)
+    # 1. Rebuild the exact empty ResNet50 architecture you trained
+    base_model = tf.keras.applications.ResNet50(weights=None, include_top=False, input_shape=(224, 224, 3))
+    x = tf.keras.layers.GlobalAveragePooling2D()(base_model.output)
+    output = tf.keras.layers.Dense(4, activation='softmax')(x)
+    model = tf.keras.models.Model(inputs=base_model.input, outputs=output)
+    
+    # 2. Inject only the learned mathematical weights from your saved file
+    model.load_weights('models/02_resnet50_weather_classifier.h5')
+    
+    return model
 
 model = load_model()
 classes = ['Cloudy', 'Rain', 'Shine', 'Sunrise'] 
