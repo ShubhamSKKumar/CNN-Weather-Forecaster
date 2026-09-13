@@ -1,4 +1,5 @@
 import json
+
 import matplotlib.pyplot as plt
 import numpy as np
 import streamlit as st
@@ -18,64 +19,7 @@ st.set_page_config(
 
 
 # =========================================================
-# CUSTOM CSS
-# =========================================================
-
-st.markdown(
-    """
-    <style>
-        .main-title {
-            text-align: center;
-            font-size: 42px;
-            font-weight: 700;
-            margin-bottom: 5px;
-        }
-
-        .subtitle {
-            text-align: center;
-            color: #666666;
-            font-size: 18px;
-            margin-bottom: 30px;
-        }
-
-        .result-card {
-            padding: 25px;
-            border-radius: 18px;
-            border: 1px solid #dddddd;
-            text-align: center;
-            margin-top: 20px;
-            margin-bottom: 20px;
-        }
-
-        .result-label {
-            font-size: 18px;
-            color: #666666;
-        }
-
-        .result-weather {
-            font-size: 42px;
-            font-weight: 700;
-            margin: 8px 0;
-        }
-
-        .result-confidence {
-            font-size: 20px;
-        }
-
-        .section-title {
-            font-size: 24px;
-            font-weight: 600;
-            margin-top: 25px;
-            margin-bottom: 15px;
-        }
-    </style>
-    """,
-    unsafe_allow_html=True
-)
-
-
-# =========================================================
-# WEATHER INFORMATION
+# WEATHER CLASSES AND ICONS
 # =========================================================
 
 classes = ["Cloudy", "Rain", "Shine", "Sunrise"]
@@ -92,19 +36,11 @@ weather_icons = {
 # TITLE
 # =========================================================
 
-st.markdown(
-    '<div class="main-title">🌦️ Weather Forecasting AI</div>',
-    unsafe_allow_html=True
-)
+st.title("🌦️ Weather Forecasting AI")
 
-st.markdown(
-    """
-    <div class="subtitle">
-        Upload an image of the sky and let our ResNet50 model
-        classify the weather.
-    </div>
-    """,
-    unsafe_allow_html=True
+st.write(
+    "Upload an image of the sky and let the ResNet50 AI "
+    "predict the weather."
 )
 
 
@@ -169,23 +105,23 @@ with st.sidebar:
 
 
 # =========================================================
-# IMAGE UPLOAD
+# IMAGE UPLOADER
 # =========================================================
 
 uploaded_file = st.file_uploader(
-    "📷 Upload a sky image",
+    "📷 Choose a sky image",
     type=["jpg", "jpeg", "png"]
 )
 
 
 # =========================================================
-# PREDICTION
+# MAIN APPLICATION
 # =========================================================
 
 if uploaded_file is not None:
 
     # -----------------------------------------------------
-    # DISPLAY IMAGE
+    # DISPLAY UPLOADED IMAGE
     # -----------------------------------------------------
 
     image = Image.open(uploaded_file).convert("RGB")
@@ -195,6 +131,7 @@ if uploaded_file is not None:
         caption="Uploaded Image",
         use_container_width=True
     )
+
 
     # -----------------------------------------------------
     # PREPARE IMAGE
@@ -207,7 +144,8 @@ if uploaded_file is not None:
     img_array = np.expand_dims(img_array, axis=0)
 
     # IMPORTANT:
-    # preprocess_input() is NOT called here.
+    # Do NOT apply resnet50.preprocess_input() here.
+    #
     # Your saved model already contains:
     #
     # data_augmentation
@@ -216,10 +154,11 @@ if uploaded_file is not None:
     #        ↓
     # ResNet50
     #
-    # Therefore raw pixel values are passed to the model.
+    # Therefore the raw image array is passed to model.predict().
+
 
     # -----------------------------------------------------
-    # PREDICT
+    # PREDICTION
     # -----------------------------------------------------
 
     with st.spinner("🤖 Analyzing the image..."):
@@ -229,8 +168,9 @@ if uploaded_file is not None:
             verbose=0
         )[0]
 
+
     # -----------------------------------------------------
-    # GET RESULT
+    # GET PREDICTION RESULT
     # -----------------------------------------------------
 
     predicted_index = int(np.argmax(predictions))
@@ -242,85 +182,97 @@ if uploaded_file is not None:
     icon = weather_icons[predicted_class]
 
 
-# =====================================================
-# RESULT
-# =====================================================
+    # =====================================================
+    # PREDICTION RESULT
+    # =====================================================
 
-st.subheader("🌦️ Prediction")
+    st.subheader("🌦️ Prediction")
 
-st.markdown(f"## {icon} {predicted_class}")
-
-st.metric(
-    "Confidence",
-    f"{confidence:.2f}%"
-)
-
-
-# =====================================================
-# CONFIDENCE MESSAGE
-# =====================================================
-
-if confidence >= 80:
-    st.success(
-        "✅ The model is highly confident in this prediction."
+    st.markdown(
+        f"## {icon} {predicted_class}"
     )
 
-elif confidence >= 60:
-    st.info(
-        "ℹ️ The model has moderate confidence in this prediction."
-    )
-
-else:
-    st.warning(
-        "⚠️ The model has low confidence. "
-        "Try uploading a clearer sky image."
+    st.metric(
+        "Confidence",
+        f"{confidence:.2f}%"
     )
 
 
-# =====================================================
-# PREDICTION PROBABILITIES
-# =====================================================
+    # =====================================================
+    # CONFIDENCE MESSAGE
+    # =====================================================
 
-st.subheader("📊 Prediction Probabilities")
+    if confidence >= 80:
 
-sorted_indices = np.argsort(predictions)[::-1]
+        st.success(
+            "✅ The model is highly confident in this prediction."
+        )
 
-for index in sorted_indices:
-    weather_class = classes[index]
-    probability = float(predictions[index])
-    percentage = probability * 100
-    icon = weather_icons[weather_class]
+    elif confidence >= 60:
 
-    st.write(
-        f"{icon} **{weather_class}** — {percentage:.2f}%"
-    )
+        st.info(
+            "ℹ️ The model has moderate confidence in this prediction."
+        )
 
-    st.progress(probability)
+    else:
+
+        st.warning(
+            "⚠️ The model has low confidence. "
+            "Try uploading a clearer sky image."
+        )
+
+
+    # =====================================================
+    # PREDICTION PROBABILITIES
+    # =====================================================
+
+    st.subheader("📊 Prediction Probabilities")
+
+    # Sort classes from highest probability to lowest
+    sorted_indices = np.argsort(predictions)[::-1]
+
+
+    for index in sorted_indices:
+
+        weather_class = classes[index]
+
+        probability = float(predictions[index])
+
+        percentage = probability * 100
+
+        icon = weather_icons[weather_class]
+
+        st.write(
+            f"{icon} **{weather_class}** — "
+            f"{percentage:.2f}%"
+        )
+
+        st.progress(
+            min(max(probability, 0.0), 1.0)
+        )
 
 
     # =====================================================
     # AI ANALYSIS
     # =====================================================
 
-    st.markdown(
-        '<div class="section-title">🧠 AI Analysis</div>',
-        unsafe_allow_html=True
-    )
+    st.subheader("🧠 AI Analysis")
 
-    second_index = sorted_indices[1]
+    second_index = int(sorted_indices[1])
 
     second_class = classes[second_index]
 
-    second_probability = float(
-        predictions[second_index]
-    ) * 100
+    second_probability = (
+        float(predictions[second_index]) * 100
+    )
 
     difference = confidence - second_probability
 
+
     st.write(
-        f"The model predicts **{predicted_class}** as the most "
-        f"likely weather condition with **{confidence:.2f}% "
-        f"confidence**."
+        f"The model predicts **{predicted_class}** as the "
+        f"most likely weather condition with "
+        f"**{confidence:.2f}% confidence**."
     )
 
     st.write(
@@ -338,46 +290,53 @@ for index in sorted_indices:
     # TRAINING PERFORMANCE
     # =====================================================
 
+    st.subheader("📈 Training Performance")
+
+
     try:
 
         with open("training_history.json", "r") as file:
+
             history_data = json.load(file)
 
-        st.markdown(
-            '<div class="section-title">📈 Training Performance</div>',
-            unsafe_allow_html=True
-        )
 
         epochs = range(
             1,
             len(history_data["accuracy"]) + 1
         )
 
+
         # -------------------------------------------------
         # ACCURACY GRAPH
         # -------------------------------------------------
 
-        st.subheader("Training vs Validation Accuracy")
+        st.write("**Training vs Validation Accuracy**")
 
-        fig1 = plt.figure(figsize=(8, 4))
+        fig1, ax1 = plt.subplots(figsize=(8, 4))
 
-        plt.plot(
+        ax1.plot(
             epochs,
             history_data["accuracy"],
+            marker="o",
             label="Training Accuracy"
         )
 
-        plt.plot(
+        ax1.plot(
             epochs,
             history_data["val_accuracy"],
+            marker="o",
             label="Validation Accuracy"
         )
 
-        plt.xlabel("Epoch")
-        plt.ylabel("Accuracy")
-        plt.title("Accuracy Over Training")
-        plt.legend()
-        plt.grid(True)
+        ax1.set_xlabel("Epoch")
+
+        ax1.set_ylabel("Accuracy")
+
+        ax1.set_title("Accuracy Over Training")
+
+        ax1.legend()
+
+        ax1.grid(True)
 
         st.pyplot(fig1)
 
@@ -388,38 +347,45 @@ for index in sorted_indices:
         # LOSS GRAPH
         # -------------------------------------------------
 
-        st.subheader("Training vs Validation Loss")
+        st.write("**Training vs Validation Loss**")
 
-        fig2 = plt.figure(figsize=(8, 4))
+        fig2, ax2 = plt.subplots(figsize=(8, 4))
 
-        plt.plot(
+        ax2.plot(
             epochs,
             history_data["loss"],
+            marker="o",
             label="Training Loss"
         )
 
-        plt.plot(
+        ax2.plot(
             epochs,
             history_data["val_loss"],
+            marker="o",
             label="Validation Loss"
         )
 
-        plt.xlabel("Epoch")
-        plt.ylabel("Loss")
-        plt.title("Loss Over Training")
-        plt.legend()
-        plt.grid(True)
+        ax2.set_xlabel("Epoch")
+
+        ax2.set_ylabel("Loss")
+
+        ax2.set_title("Loss Over Training")
+
+        ax2.legend()
+
+        ax2.grid(True)
 
         st.pyplot(fig2)
 
         plt.close(fig2)
 
+
     except FileNotFoundError:
 
         st.info(
-            "Training history is not available. "
-            "Add training_history.json to the project folder "
-            "to display the training graphs."
+            "Training history is not available yet. "
+            "Add training_history.json to your repository "
+            "to display the graphs."
         )
 
 
