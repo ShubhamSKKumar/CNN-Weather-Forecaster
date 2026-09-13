@@ -413,5 +413,5 @@ if uploaded_file is not None:
 else:
 
     st.info(
-        "👆 Upload an image above to get an AI weather prediction."
+        "👆 Upload an image above to get an AI weather classification/identification."
     )
