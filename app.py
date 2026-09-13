@@ -242,72 +242,60 @@ if uploaded_file is not None:
     icon = weather_icons[predicted_class]
 
 
-    # =====================================================
-    # RESULT CARD
-    # =====================================================
+# =====================================================
+# RESULT
+# =====================================================
 
-    st.subheader("🌦️ Prediction")
+st.subheader("🌦️ Prediction")
 
-st.markdown(
-    f"## {icon} {predicted_class}"
-)
+st.markdown(f"## {icon} {predicted_class}")
 
 st.metric(
     "Confidence",
     f"{confidence:.2f}%"
 )
 
-    # =====================================================
-    # CONFIDENCE MESSAGE
-    # =====================================================
 
-    if confidence >= 80:
+# =====================================================
+# CONFIDENCE MESSAGE
+# =====================================================
 
-        st.success(
-            "✅ The model is highly confident in this prediction."
-        )
-
-    elif confidence >= 60:
-
-        st.info(
-            "ℹ️ The model has moderate confidence in this prediction."
-        )
-
-    else:
-
-        st.warning(
-            "⚠️ The model has low confidence. "
-            "Try uploading a clearer sky image."
-        )
-
-
-    # =====================================================
-    # PREDICTION PROBABILITIES
-    # =====================================================
-
-    st.markdown(
-        '<div class="section-title">📊 Prediction Probabilities</div>',
-        unsafe_allow_html=True
+if confidence >= 80:
+    st.success(
+        "✅ The model is highly confident in this prediction."
     )
 
-    # Sort classes from highest probability to lowest
-    sorted_indices = np.argsort(predictions)[::-1]
+elif confidence >= 60:
+    st.info(
+        "ℹ️ The model has moderate confidence in this prediction."
+    )
 
-    for index in sorted_indices:
+else:
+    st.warning(
+        "⚠️ The model has low confidence. "
+        "Try uploading a clearer sky image."
+    )
 
-        weather_class = classes[index]
 
-        probability = float(predictions[index])
+# =====================================================
+# PREDICTION PROBABILITIES
+# =====================================================
 
-        percentage = probability * 100
+st.subheader("📊 Prediction Probabilities")
 
-        icon = weather_icons[weather_class]
+sorted_indices = np.argsort(predictions)[::-1]
 
-        st.write(
-            f"{icon} **{weather_class}** — {percentage:.2f}%"
-        )
+for index in sorted_indices:
+    weather_class = classes[index]
+    probability = float(predictions[index])
+    percentage = probability * 100
+    icon = weather_icons[weather_class]
 
-        st.progress(probability)
+    st.write(
+        f"{icon} **{weather_class}** — {percentage:.2f}%"
+    )
+
+    st.progress(probability)
 
 
     # =====================================================
