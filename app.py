@@ -8,17 +8,43 @@ st.write("Upload an image of the sky, and the ResNet50 AI will predict the weath
 
 # Cache the model so it doesn't reload on every click
 @st.cache_resource
+@st.cache_resource
 def load_model():
-    # 1. Rebuild the exact empty ResNet50 architecture you trained
-    base_model = tf.keras.applications.ResNet50(weights=None, include_top=False, input_shape=(224, 224, 3))
-    x = tf.keras.layers.GlobalAveragePooling2D()(base_model.output)
-    output = tf.keras.layers.Dense(4, activation='softmax')(x)
-    model = tf.keras.models.Model(inputs=base_model.input, outputs=output)
+    weights_path = 'models/02_resnet50_weather_classifier.h5'
     
-    # 2. Inject only the learned mathematical weights from your saved file
-    model.load_weights('models/02_resnet50_weather_classifier.h5')
-    
-    return model
+    try:
+        # Architecture 1: The Nested Sequential (matches a 4-layer topology)
+        data_augmentation = tf.keras.Sequential([
+            tf.keras.layers.Rescaling(1./255),
+            tf.keras.layers.RandomFlip("horizontal"),
+            tf.keras.layers.RandomRotation(0.2),
+            tf.keras.layers.RandomZoom(0.2),
+        ], name="data_augmentation")
+
+        model = tf.keras.Sequential([
+            data_augmentation,
+            tf.keras.applications.ResNet50(weights=None, include_top=False, input_shape=(224, 224, 3)),
+            tf.keras.layers.GlobalAveragePooling2D(),
+            tf.keras.layers.Dense(4, activation='softmax')
+        ])
+        model.build((None, 224, 224, 3))
+        model.load_weights(weights_path)
+        return model
+        
+    except ValueError:
+        # Architecture 2: The Flat Sequential (matches a 7-layer topology)
+        model = tf.keras.Sequential([
+            tf.keras.layers.Rescaling(1./255, input_shape=(224, 224, 3)),
+            tf.keras.layers.RandomFlip("horizontal"),
+            tf.keras.layers.RandomRotation(0.2),
+            tf.keras.layers.RandomZoom(0.2),
+            tf.keras.applications.ResNet50(weights=None, include_top=False),
+            tf.keras.layers.GlobalAveragePooling2D(),
+            tf.keras.layers.Dense(4, activation='softmax')
+        ])
+        model.build((None, 224, 224, 3))
+        model.load_weights(weights_path)
+        return model
 
 model = load_model()
 classes = ['Cloudy', 'Rain', 'Shine', 'Sunrise'] 
