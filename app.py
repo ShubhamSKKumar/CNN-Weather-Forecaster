@@ -17,6 +17,46 @@ st.set_page_config(
     layout="centered"
 )
 
+# =========================================================
+# LIGHT WEATHER-THEMED BACKGROUND
+# =========================================================
+
+st.markdown(
+    """
+    <style>
+
+        /* Main page background */
+        .stApp {
+            background: linear-gradient(
+                180deg,
+                #eef7ff 0%,
+                #ffffff 50%,
+                #f5fbff 100%
+            );
+        }
+
+        /* Main content */
+        .main {
+            background-color: transparent;
+        }
+
+        /* Sidebar */
+        section[data-testid="stSidebar"] {
+            background-color: #e8f4ff;
+        }
+
+        /* File uploader */
+        section[data-testid="stFileUploader"] {
+            background-color: white;
+            border-radius: 12px;
+            padding: 10px;
+        }
+
+    </style>
+    """,
+    unsafe_allow_html=True
+)
+
 
 # =========================================================
 # WEATHER CLASSES AND ICONS
