@@ -24,157 +24,18 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-
-        /* =================================================
-           MAIN PAGE
-           ================================================= */
-
         .stApp {
             background: linear-gradient(
                 180deg,
-                #eaf6ff 0%,
-                #ffffff 55%,
-                #f5fbff 100%
+                #EAF6FF 0%,
+                #FFFFFF 55%,
+                #F5FBFF 100%
             );
         }
-
-
-        /* =================================================
-           TOP HEADER
-           ================================================= */
-
-        header[data-testid="stHeader"] {
-            background-color: #ffffff !important;
-        }
-
-        /* Make header buttons/icons dark */
-        header[data-testid="stHeader"] button {
-            color: #111111 !important;
-            background-color: transparent !important;
-        }
-
-        header[data-testid="stHeader"] svg {
-            color: #111111 !important;
-            fill: #111111 !important;
-            stroke: #111111 !important;
-            filter: brightness(0);
-        }
-
-
-        /* =================================================
-           MAIN TEXT
-           ================================================= */
-
-        .stApp h1,
-        .stApp h2,
-        .stApp h3,
-        .stApp h4,
-        .stApp h5,
-        .stApp h6,
-        .stApp p,
-        .stApp label {
-            color: #111111 !important;
-        }
-
-
-        /* =================================================
-           SIDEBAR
-           ================================================= */
-
-        section[data-testid="stSidebar"] {
-            background-color: #e6f3ff !important;
-        }
-
-        section[data-testid="stSidebar"] * {
-            color: #111111 !important;
-        }
-
-
-        /* =================================================
-           FILE UPLOADER
-           ================================================= */
-
-        section[data-testid="stFileUploader"] {
-            background-color: #ffffff !important;
-            border-radius: 12px !important;
-        }
-
-
-        /* Drop zone */
-        section[data-testid="stFileUploaderDropzone"] {
-            background-color: #ffffff !important;
-            border: 2px dashed #9ec5e6 !important;
-            border-radius: 12px !important;
-        }
-
-        section[data-testid="stFileUploaderDropzone"] * {
-            color: #111111 !important;
-        }
-
-
-        /* =================================================
-           UPLOADED FILE CARD / CHIP
-           ================================================= */
-
-        section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
-            background-color: #ffffff !important;
-            border: 1px solid #d5e8f5 !important;
-            border-radius: 10px !important;
-        }
-
-        section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] * {
-            color: #111111 !important;
-        }
-
-
-        /* File name */
-        section[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"] {
-            color: #111111 !important;
-        }
-
-
-        /* Remove button */
-        section[data-testid="stFileUploader"] button {
-            color: #111111 !important;
-            background-color: transparent !important;
-        }
-
-        section[data-testid="stFileUploader"] button svg {
-            color: #111111 !important;
-            fill: #111111 !important;
-            stroke: #111111 !important;
-        }
-
-
-        /* =================================================
-           METRICS
-           ================================================= */
-
-        div[data-testid="stMetric"] {
-            background-color: #ffffff !important;
-            border-radius: 12px !important;
-            border: 1px solid #d9eaf7 !important;
-            padding: 10px !important;
-        }
-
-        div[data-testid="stMetric"] * {
-            color: #111111 !important;
-        }
-
-
-        /* =================================================
-           PROGRESS BARS
-           ================================================= */
-
-        div[data-testid="stProgress"] {
-            background-color: #dfeef8 !important;
-        }
-
     </style>
     """,
     unsafe_allow_html=True
 )
-
 # =========================================================
 # WEATHER CLASSES AND ICONS
 # =========================================================
