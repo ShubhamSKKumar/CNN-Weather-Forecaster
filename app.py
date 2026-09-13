@@ -8,7 +8,7 @@ st.write("Upload an image of the sky, and the ResNet50 AI will predict the weath
 
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model('models/resnet50_weather_classifier.keras')
+    return tf.keras.models.load_model('models/02_resnet50_weather_classifier.keras')
 
 model = load_model()
 classes = ['Cloudy', 'Rain', 'Shine', 'Sunrise'] 
