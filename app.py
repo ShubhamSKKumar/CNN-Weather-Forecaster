@@ -18,78 +18,139 @@ st.set_page_config(
 )
 
 # =========================================================
-# LIGHT THEME
+# LIGHT WEATHER-THEMED DESIGN
 # =========================================================
 
 st.markdown(
     """
     <style>
 
-        /* Main application background */
+        /* ================================
+           MAIN PAGE
+           ================================ */
+
         .stApp {
             background: linear-gradient(
                 180deg,
                 #eaf6ff 0%,
                 #ffffff 55%,
-                #f3faff 100%
+                #f5fbff 100%
             );
             color: #111111;
         }
 
-        /* All normal text */
-        .stApp p,
-        .stApp span,
-        .stApp label,
-        .stApp div {
-            color: #111111;
+
+        /* ================================
+           TOP STREAMLIT HEADER
+           ================================ */
+
+        header[data-testid="stHeader"] {
+            background-color: #ffffff !important;
         }
 
-        /* Headings */
+        header[data-testid="stHeader"] * {
+            color: #111111 !important;
+        }
+
+
+        /* ================================
+           MAIN TEXT
+           ================================ */
+
         .stApp h1,
         .stApp h2,
         .stApp h3,
         .stApp h4,
         .stApp h5,
-        .stApp h6 {
-            color: #111111;
+        .stApp h6,
+        .stApp p,
+        .stApp label {
+            color: #111111 !important;
         }
 
-        /* Sidebar */
+
+        /* ================================
+           SIDEBAR
+           ================================ */
+
         section[data-testid="stSidebar"] {
-            background-color: #e6f3ff;
+            background-color: #e6f3ff !important;
         }
 
-        section[data-testid="stSidebar"] p,
-        section[data-testid="stSidebar"] span,
-        section[data-testid="stSidebar"] div,
-        section[data-testid="stSidebar"] label,
-        section[data-testid="stSidebar"] h1,
-        section[data-testid="stSidebar"] h2,
-        section[data-testid="stSidebar"] h3,
-        section[data-testid="stSidebar"] h4 {
+        section[data-testid="stSidebar"] * {
             color: #111111 !important;
         }
 
-        /* File uploader */
+
+        /* ================================
+           FILE UPLOADER OUTER BOX
+           ================================ */
+
         section[data-testid="stFileUploader"] {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 12px;
+            background-color: #ffffff !important;
+            border-radius: 12px !important;
         }
 
-        section[data-testid="stFileUploader"] * {
+
+        /* ================================
+           FILE UPLOADER DROP ZONE
+           ================================ */
+
+        section[data-testid="stFileUploaderDropzone"] {
+            background-color: #ffffff !important;
+            border: 2px dashed #9ec5e6 !important;
+            border-radius: 12px !important;
+        }
+
+
+        /* File uploader text */
+        section[data-testid="stFileUploaderDropzone"] * {
             color: #111111 !important;
         }
 
-        /* Metric */
+
+        /* ================================
+           UPLOAD BUTTON
+           ================================ */
+
+        section[data-testid="stFileUploaderDropzone"] button {
+            background-color: #eaf6ff !important;
+            color: #111111 !important;
+            border: 1px solid #9ec5e6 !important;
+        }
+
+
+        /* ================================
+           METRICS
+           ================================ */
+
         div[data-testid="stMetric"] {
-            background-color: #ffffff;
-            border-radius: 12px;
-            padding: 10px;
+            background-color: #ffffff !important;
+            border-radius: 12px !important;
+            padding: 10px !important;
+            border: 1px solid #d9eaf7 !important;
         }
 
         div[data-testid="stMetric"] * {
             color: #111111 !important;
+        }
+
+
+        /* ================================
+           INFO / SUCCESS / WARNING BOXES
+           ================================ */
+
+        div[data-testid="stAlert"] {
+            border-radius: 10px !important;
+        }
+
+
+        /* ================================
+           PROGRESS BAR
+           ================================ */
+
+        div[data-testid="stProgress"] {
+            background-color: #dfeef8 !important;
         }
 
     </style>
