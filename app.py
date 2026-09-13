@@ -25,9 +25,9 @@ st.markdown(
     """
     <style>
 
-        /* ================================
+        /* =================================================
            MAIN PAGE
-           ================================ */
+           ================================================= */
 
         .stApp {
             background: linear-gradient(
@@ -36,26 +36,34 @@ st.markdown(
                 #ffffff 55%,
                 #f5fbff 100%
             );
-            color: #111111;
         }
 
 
-        /* ================================
-           TOP STREAMLIT HEADER
-           ================================ */
+        /* =================================================
+           TOP HEADER
+           ================================================= */
 
         header[data-testid="stHeader"] {
             background-color: #ffffff !important;
         }
 
-        header[data-testid="stHeader"] * {
+        /* Make header buttons/icons dark */
+        header[data-testid="stHeader"] button {
             color: #111111 !important;
+            background-color: transparent !important;
+        }
+
+        header[data-testid="stHeader"] svg {
+            color: #111111 !important;
+            fill: #111111 !important;
+            stroke: #111111 !important;
+            filter: brightness(0);
         }
 
 
-        /* ================================
+        /* =================================================
            MAIN TEXT
-           ================================ */
+           ================================================= */
 
         .stApp h1,
         .stApp h2,
@@ -69,9 +77,9 @@ st.markdown(
         }
 
 
-        /* ================================
+        /* =================================================
            SIDEBAR
-           ================================ */
+           ================================================= */
 
         section[data-testid="stSidebar"] {
             background-color: #e6f3ff !important;
@@ -82,9 +90,9 @@ st.markdown(
         }
 
 
-        /* ================================
-           FILE UPLOADER OUTER BOX
-           ================================ */
+        /* =================================================
+           FILE UPLOADER
+           ================================================= */
 
         section[data-testid="stFileUploader"] {
             background-color: #ffffff !important;
@@ -92,43 +100,61 @@ st.markdown(
         }
 
 
-        /* ================================
-           FILE UPLOADER DROP ZONE
-           ================================ */
-
+        /* Drop zone */
         section[data-testid="stFileUploaderDropzone"] {
             background-color: #ffffff !important;
             border: 2px dashed #9ec5e6 !important;
             border-radius: 12px !important;
         }
 
-
-        /* File uploader text */
         section[data-testid="stFileUploaderDropzone"] * {
             color: #111111 !important;
         }
 
 
-        /* ================================
-           UPLOAD BUTTON
-           ================================ */
+        /* =================================================
+           UPLOADED FILE CARD / CHIP
+           ================================================= */
 
-        section[data-testid="stFileUploaderDropzone"] button {
-            background-color: #eaf6ff !important;
+        section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {
+            background-color: #ffffff !important;
+            border: 1px solid #d5e8f5 !important;
+            border-radius: 10px !important;
+        }
+
+        section[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] * {
             color: #111111 !important;
-            border: 1px solid #9ec5e6 !important;
         }
 
 
-        /* ================================
+        /* File name */
+        section[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"] {
+            color: #111111 !important;
+        }
+
+
+        /* Remove button */
+        section[data-testid="stFileUploader"] button {
+            color: #111111 !important;
+            background-color: transparent !important;
+        }
+
+        section[data-testid="stFileUploader"] button svg {
+            color: #111111 !important;
+            fill: #111111 !important;
+            stroke: #111111 !important;
+        }
+
+
+        /* =================================================
            METRICS
-           ================================ */
+           ================================================= */
 
         div[data-testid="stMetric"] {
             background-color: #ffffff !important;
             border-radius: 12px !important;
-            padding: 10px !important;
             border: 1px solid #d9eaf7 !important;
+            padding: 10px !important;
         }
 
         div[data-testid="stMetric"] * {
@@ -136,18 +162,9 @@ st.markdown(
         }
 
 
-        /* ================================
-           INFO / SUCCESS / WARNING BOXES
-           ================================ */
-
-        div[data-testid="stAlert"] {
-            border-radius: 10px !important;
-        }
-
-
-        /* ================================
-           PROGRESS BAR
-           ================================ */
+        /* =================================================
+           PROGRESS BARS
+           ================================================= */
 
         div[data-testid="stProgress"] {
             background-color: #dfeef8 !important;
