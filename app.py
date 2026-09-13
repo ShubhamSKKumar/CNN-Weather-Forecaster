@@ -9,7 +9,7 @@ st.write("Upload an image of the sky, and the ResNet50 AI will predict the weath
 # Cache the model so it doesn't reload on every click
 @st.cache_resource
 def load_model():
-    return tf.keras.models.load_model('models/02_resnet50_weather_classifier.h5')
+    return tf.keras.models.load_model('models/02_resnet50_weather_classifier.h5', compile=False)
 
 model = load_model()
 classes = ['Cloudy', 'Rain', 'Shine', 'Sunrise'] 
