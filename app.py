@@ -246,27 +246,16 @@ if uploaded_file is not None:
     # RESULT CARD
     # =====================================================
 
-    st.markdown(
-        f"""
-        <div class="result-card">
+    st.subheader("🌦️ Prediction")
 
-            <div class="result-label">
-                Predicted Weather
-            </div>
+st.markdown(
+    f"## {icon} {predicted_class}"
+)
 
-            <div class="result-weather">
-                {icon} {predicted_class}
-            </div>
-
-            <div class="result-confidence">
-                Confidence: <b>{confidence:.2f}%</b>
-            </div>
-
-        </div>
-        """,
-        unsafe_allow_html=True
-    )
-
+st.metric(
+    "Confidence",
+    f"{confidence:.2f}%"
+)
 
     # =====================================================
     # CONFIDENCE MESSAGE
