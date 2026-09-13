@@ -54,11 +54,10 @@ weather_icons = {
 # TITLE
 # =========================================================
 
-st.title("🌦️ Weather Forecasting AI")
+st.title("🌦️ AI Weather Classification")
 
 st.write(
-    "Upload an image of the sky and let the ResNet50 AI "
-    "predict the weather."
+    "Upload a sky image and let our ResNet50 model identify the weather condition."
 )
 
 
