@@ -18,45 +18,84 @@ st.set_page_config(
 )
 
 # =========================================================
-# LIGHT WEATHER-THEMED BACKGROUND
+# LIGHT THEME
 # =========================================================
 
 st.markdown(
     """
     <style>
 
-        /* Main page background */
+        /* Main application background */
         .stApp {
             background: linear-gradient(
                 180deg,
-                #eef7ff 0%,
-                #ffffff 50%,
-                #f5fbff 100%
+                #eaf6ff 0%,
+                #ffffff 55%,
+                #f3faff 100%
             );
+            color: #111111;
         }
 
-        /* Main content */
-        .main {
-            background-color: transparent;
+        /* All normal text */
+        .stApp p,
+        .stApp span,
+        .stApp label,
+        .stApp div {
+            color: #111111;
+        }
+
+        /* Headings */
+        .stApp h1,
+        .stApp h2,
+        .stApp h3,
+        .stApp h4,
+        .stApp h5,
+        .stApp h6 {
+            color: #111111;
         }
 
         /* Sidebar */
         section[data-testid="stSidebar"] {
-            background-color: #e8f4ff;
+            background-color: #e6f3ff;
+        }
+
+        section[data-testid="stSidebar"] p,
+        section[data-testid="stSidebar"] span,
+        section[data-testid="stSidebar"] div,
+        section[data-testid="stSidebar"] label,
+        section[data-testid="stSidebar"] h1,
+        section[data-testid="stSidebar"] h2,
+        section[data-testid="stSidebar"] h3,
+        section[data-testid="stSidebar"] h4 {
+            color: #111111 !important;
         }
 
         /* File uploader */
         section[data-testid="stFileUploader"] {
-            background-color: white;
+            background-color: #ffffff;
+            border-radius: 12px;
+            padding: 12px;
+        }
+
+        section[data-testid="stFileUploader"] * {
+            color: #111111 !important;
+        }
+
+        /* Metric */
+        div[data-testid="stMetric"] {
+            background-color: #ffffff;
             border-radius: 12px;
             padding: 10px;
+        }
+
+        div[data-testid="stMetric"] * {
+            color: #111111 !important;
         }
 
     </style>
     """,
     unsafe_allow_html=True
 )
-
 
 # =========================================================
 # WEATHER CLASSES AND ICONS
